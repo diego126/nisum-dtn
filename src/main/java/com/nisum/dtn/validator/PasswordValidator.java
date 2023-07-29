@@ -13,6 +13,7 @@ public class PasswordValidator implements ConstraintValidator<CustomRegex, Strin
 
     @Override
     public void initialize(CustomRegex constraintAnnotation) {
+        System.out.println("Initializing");
     }
 
     @Override
