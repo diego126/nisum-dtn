@@ -16,6 +16,7 @@ El proyecto ha sido desarrollado utilizando las siguientes tecnologías:
 - Lombok
 - MapStruct
 - Spring Security
+- JUnit y Mockito
 - Swagger 3/Open Api
 - Docker
 - AWS

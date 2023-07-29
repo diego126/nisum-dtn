@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface CustomRegex {
-    String message() default "Not Valid Password";
+    String message() default "Password must contain letters and numbers and must be longer than 3 characters";
 
     Class<?>[] groups() default {};
 
