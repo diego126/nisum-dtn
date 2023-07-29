@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +35,16 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Page<UserDto>> getUsers(Pageable page){
-        return new ResponseEntity<>(userService.getUsers(page), HttpStatus.OK);
+    public ResponseEntity<Page<UserDto>> getUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "id,name asc") String sort
+    ){
+        String direction = sort.split("\\s+")[1];
+        String attributes = sort.split("\\s+")[0];
+        Sort pageableSort = Sort.by(Sort.Direction.fromString(direction), attributes.split(","));
+        Pageable pageable = PageRequest.of(page, size, pageableSort);
+        return new ResponseEntity<>(userService.getUsers(pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
